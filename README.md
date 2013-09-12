@@ -39,6 +39,13 @@ Example session
 	4: ^C
 
 
+Requirements
+------------
+
+ * Perl 5
+ * Lingua::NOR::Num2Word from CPAN.
+
+
 Improvements
 ------------
 
