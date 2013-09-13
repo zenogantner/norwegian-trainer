@@ -5,7 +5,7 @@ use warnings;
 
 use English;
 use Lingua::NOR::Num2Word;
- 
+
 my $no_num2word = Lingua::NOR::Num2Word->new();
 
 sub usage {
@@ -37,10 +37,13 @@ sub input_and_check {
 }
 
 sub repeat_word {
-	my ($word, $times) = @_;
+	my ($word_or_list_ref, $times) = @_;
+
+	my $words = ref $word_or_list_ref eq 'ARRAY' ? join(' ELLER ', @$word_or_list_ref) : $word_or_list_ref;
+
 	foreach my $i (1 .. $times) {
 		while (1) {
-			last if input_and_check("$word ($i/$times)", $word);
+			last if input_and_check("$words ($i/$times)", $word_or_list_ref);
 		}
 	}
 }
@@ -67,6 +70,11 @@ while (1) {
 	my $i = draw($max, $last);
 	$last = $i;
 	my $text = $no_num2word->num2no_cardinal($i);
+	if ($text =~ /^ett /) {
+		my $alternative_text = $text;
+		$alternative_text =~ s/^ett //;
+		$text = [$text, $alternative_text];
+	}
 	if (input_and_check($i, $text)) {
 		print "Kjempefint!\n";
 	}
