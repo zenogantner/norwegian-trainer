@@ -14,23 +14,31 @@ sub usage {
 	exit;
 }
 
-sub repeat_word {
-	my ($word, $times) = @_;
-	foreach my $i (1 .. $times) {
-		while (1) {
-			print "$word ($i/$times): ";
-			my $input = <STDIN>; chomp $input;
-			last if $input eq $word;
-		}
-	}
-}
-
 sub draw {
 	my ($max, $last) = @_;
 	while (1) {
 		my $i = int(rand($max + 1));
 		if ($i != $last) {
 			return $i;
+		}
+	}
+}
+
+sub input_and_check {
+	my ($prompt, $word) = @_;
+	
+	print "$prompt: ";
+	my $input = <STDIN>;
+	chomp $input;
+
+	return $input eq $word;
+}
+
+sub repeat_word {
+	my ($word, $times) = @_;
+	foreach my $i (1 .. $times) {
+		while (1) {
+			last if input_and_check("$word ($i/$times)", $word);
 		}
 	}
 }
@@ -57,9 +65,7 @@ while (1) {
 	my $i = draw($max, $last);
 	$last = $i;
 	my $text = $no_num2word->num2no_cardinal($i);
-	print "$i: ";
-	my $input = <STDIN>; chomp $input;
-	if ($input eq $text) {
+	if (input_and_check($i, $text)) {
 		print "Kjempefint!\n";
 	}
 	else {
