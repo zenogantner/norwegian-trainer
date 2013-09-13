@@ -25,13 +25,15 @@ sub draw {
 }
 
 sub input_and_check {
-	my ($prompt, $word) = @_;
-	
+	my ($prompt, $word_or_list_ref) = @_;
+
+	my @words = ref $word_or_list_ref eq 'ARRAY' ? @$word_or_list_ref : [$word_or_list_ref];
+
 	print "$prompt: ";
 	my $input = <STDIN>;
 	chomp $input;
 
-	return $input eq $word;
+	return $input ~~ @words;
 }
 
 sub repeat_word {
