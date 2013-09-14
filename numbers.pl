@@ -63,6 +63,7 @@ if (length @ARGV > 0 && defined $ARGV[0]) {
 }
 
 print "Norwegian special characters for copy+paste: æ ø̣ å\n";
+print "Please use spaces: 'tjue to', not 'tjueto' for 22.\n";
 
 # actual program loop
 my $last = 0;
