@@ -49,6 +49,20 @@ sub repeat_word {
 	}
 }
 
+sub expand_text {
+	my ($pattern, $replacement, $list_ref) = @_;
+
+	foreach my $text (@$list_ref) {
+		if ($text =~ $pattern) {
+			my $alternative_text = $text;
+			$alternative_text =~ s/$pattern/$replacement/g;
+			push $alternative_text, @$list_ref;
+		}
+	}
+
+	return;
+}
+
 # set up
 my $max = 99;
 if (length @ARGV > 0 && defined $ARGV[0]) {
@@ -71,17 +85,15 @@ my $last = 0;
 while (1) {
 	my $i = draw($max, $last);
 	$last = $i;
-	my $text = $no_num2word->num2no_cardinal($i);
-	if ($text =~ /^ett /) {
-		my $alternative_text = $text;
-		$alternative_text =~ s/^ett //;
-		$text = [$text, $alternative_text];
-	}
-	if (input_and_check($i, $text)) {
+
+	my @texts = ($no_num2word->num2no_cardinal($i));
+	expand_text(qr/^ett /, '', \@texts);
+
+	if (input_and_check($i, \@texts)) {
 		print "Kjempefint!\n";
 	}
 	else {
-		repeat_word($text, 3);
+		repeat_word(\@texts, 3);
 	}
 }
 
