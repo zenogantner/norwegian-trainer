@@ -87,8 +87,10 @@ while (1) {
 	$last = $i;
 
 	my @texts = ($no_num2word->num2no_cardinal($i));
-	expand_text(qr/^ett /, '', \@texts);
-	expand_text(qr/\bsju\b/, 'syv', \@texts);
+	expand_text(qr/^ett /,       '', \@texts);
+	expand_text(qr/\bsju\b/,    'syv', \@texts);
+	expand_text(qr/\btjue\b/,   'tyve', \@texts);
+	expand_text(qr/\btretti\b/, 'tredve', \@texts);
 
 	if (input_and_check($i, \@texts)) {
 		print "Kjempefint!\n";
