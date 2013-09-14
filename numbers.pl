@@ -32,6 +32,7 @@ sub input_and_check {
 	print "$prompt: ";
 	my $input = <STDIN>;
 	chomp $input;
+	$input =~ s/\s{2,}/ /g;
 
 	return $input ~~ @words;
 }
