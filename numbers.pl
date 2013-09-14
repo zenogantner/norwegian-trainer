@@ -28,9 +28,12 @@ sub input_and_check {
 	print "$prompt: ";
 	my $input = <STDIN>;
 	chomp $input;
-	$input =~ s/\s{2,}/ /g;
 
-	return $input ~~ @$correct_inputs_ref;
+	# normalize
+	$input =~ s/\s//g;
+	my @correct_inputs = map { my $s = $_; $s =~ s/\s//g; $s } @$correct_inputs_ref;
+
+	return $input ~~ @correct_inputs;
 }
 
 sub repeat_word {
