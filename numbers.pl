@@ -88,6 +88,7 @@ while (1) {
 
 	my @texts = ($no_num2word->num2no_cardinal($i));
 	expand_text(qr/^ett /, '', \@texts);
+	expand_text(qr/\bsju\b/, 'syv', \@texts);
 
 	if (input_and_check($i, \@texts)) {
 		print "Kjempefint!\n";
