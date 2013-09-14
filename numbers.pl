@@ -18,9 +18,7 @@ sub draw {
 	my ($max, $last) = @_;
 	while (1) {
 		my $i = int(rand($max + 1));
-		if ($i != $last) {
-			return $i;
-		}
+		return $i if $i != $last;
 	}
 }
 
@@ -47,6 +45,8 @@ sub repeat_word {
 			last if input_and_check("$words ($i/$times)", $word_or_list_ref);
 		}
 	}
+
+	return;
 }
 
 sub expand_text {
