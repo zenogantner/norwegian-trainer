@@ -56,7 +56,7 @@ sub expand_text {
 		if ($text =~ $pattern) {
 			my $alternative_text = $text;
 			$alternative_text =~ s/$pattern/$replacement/g;
-			push $alternative_text, @$list_ref;
+			push @$list_ref, $alternative_text;
 		}
 	}
 
