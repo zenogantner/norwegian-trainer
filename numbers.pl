@@ -50,7 +50,7 @@ sub repeat_word {
 
 # set up
 my $max = 99;
-if (length(@ARGV) > 0) {
+if (length @ARGV > 0 && defined $ARGV[0]) {
 	if ($ARGV[0] eq '--help' or $ARGV[0] eq '-h') {
 		usage();
 	}
