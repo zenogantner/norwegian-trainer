@@ -23,26 +23,24 @@ sub draw {
 }
 
 sub input_and_check {
-	my ($prompt, $word_or_list_ref) = @_;
-
-	my @words = ref $word_or_list_ref eq 'ARRAY' ? @$word_or_list_ref : [$word_or_list_ref];
+	my ($prompt, $correct_inputs_ref) = @_;
 
 	print "$prompt: ";
 	my $input = <STDIN>;
 	chomp $input;
 	$input =~ s/\s{2,}/ /g;
 
-	return $input ~~ @words;
+	return $input ~~ @$correct_inputs_ref;
 }
 
 sub repeat_word {
-	my ($word_or_list_ref, $times) = @_;
+	my ($words_ref, $times) = @_;
 
-	my $words = ref $word_or_list_ref eq 'ARRAY' ? join(' ELLER ', @$word_or_list_ref) : $word_or_list_ref;
+	my $words = join(' ELLER ', @$words_ref);
 
 	foreach my $i (1 .. $times) {
 		while (1) {
-			last if input_and_check("$words ($i/$times)", $word_or_list_ref);
+			last if input_and_check("$words ($i/$times)", $words_ref);
 		}
 	}
 
@@ -78,7 +76,6 @@ if (length @ARGV > 0 && defined $ARGV[0]) {
 }
 
 print "Norwegian special characters for copy+paste: æ ø̣ å\n";
-print "Please use spaces: 'tjue to', not 'tjueto' for 22.\n";
 
 # actual program loop
 my $last = 0;
