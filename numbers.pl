@@ -9,73 +9,73 @@ use Lingua::NOR::Num2Word;
 my $no_num2word = Lingua::NOR::Num2Word->new();
 
 sub usage {
-	print "Usage: $0 MAX_INT\n";
-	print "  MAX_INT is the maximum number.\n";
-	exit;
+        print "Usage: $0 MAX_INT\n";
+        print "  MAX_INT is the maximum number.\n";
+        exit;
 }
 
 sub draw {
-	my ($max, $last) = @_;
-	while (1) {
-		my $i = int(rand($max + 1));
-		return $i if $i != $last;
-	}
+        my ($max, $last) = @_;
+        while (1) {
+                my $i = int(rand($max + 1));
+                return $i if $i != $last;
+        }
 }
 
 sub input_and_check {
-	my ($prompt, $correct_inputs_ref) = @_;
+        my ($prompt, $correct_inputs_ref) = @_;
 
-	print "$prompt: ";
-	my $input = <STDIN>;
-	chomp $input;
+        print "$prompt: ";
+        my $input = <STDIN>;
+        chomp $input;
 
-	# normalize
-	$input =~ s/\s//g;
-	my @correct_inputs = map { my $s = $_; $s =~ s/\s//g; $s } @$correct_inputs_ref;
+        # normalize
+        $input =~ s/\s//g;
+        my @correct_inputs = map { my $s = $_; $s =~ s/\s//g; $s } @$correct_inputs_ref;
 
-	return $input ~~ @correct_inputs;
+        return $input ~~ @correct_inputs;
 }
 
 sub repeat_word {
-	my ($words_ref, $times) = @_;
+        my ($words_ref, $times) = @_;
 
-	my $words = join(' ELLER ', @$words_ref);
+        my $words = join(' ELLER ', @$words_ref);
 
-	foreach my $i (1 .. $times) {
-		while (1) {
-			last if input_and_check("$words ($i/$times)", $words_ref);
-		}
-	}
+        foreach my $i (1 .. $times) {
+                while (1) {
+                        last if input_and_check("$words ($i/$times)", $words_ref);
+                }
+        }
 
-	return;
+        return;
 }
 
 sub expand_text {
-	my ($pattern, $replacement, $list_ref) = @_;
+        my ($pattern, $replacement, $list_ref) = @_;
 
-	foreach my $text (@$list_ref) {
-		if ($text =~ $pattern) {
-			my $alternative_text = $text;
-			$alternative_text =~ s/$pattern/$replacement/g;
-			push @$list_ref, $alternative_text;
-		}
-	}
+        foreach my $text (@$list_ref) {
+                if ($text =~ $pattern) {
+                        my $alternative_text = $text;
+                        $alternative_text =~ s/$pattern/$replacement/g;
+                        push @$list_ref, $alternative_text;
+                }
+        }
 
-	return;
+        return;
 }
 
 # set up
 my $max = 99;
 if (length @ARGV > 0 && defined $ARGV[0]) {
-	if ($ARGV[0] eq '--help' or $ARGV[0] eq '-h') {
-		usage();
-	}
-	if ($ARGV[0] =~ /\d+/) {
-		$max = $ARGV[0];
-	}
-	else {
-		usage();
-	}
+        if ($ARGV[0] eq '--help' or $ARGV[0] eq '-h') {
+                usage();
+        }
+        if ($ARGV[0] =~ /\d+/) {
+                $max = $ARGV[0];
+        }
+        else {
+                usage();
+        }
 }
 
 print "Norwegian special characters for copy+paste: æ ø å\n";
@@ -83,21 +83,21 @@ print "Norwegian special characters for copy+paste: æ ø å\n";
 # actual program loop
 my $last = 0;
 while (1) {
-	my $i = draw($max, $last);
-	$last = $i;
+        my $i = draw($max, $last);
+        $last = $i;
 
-	my @texts = ($no_num2word->num2no_cardinal($i));
-	expand_text(qr/^ett /,       '', \@texts);
-	expand_text(qr/\bsju\b/,    'syv', \@texts);
-	expand_text(qr/\btjue\b/,   'tyve', \@texts);
-	expand_text(qr/\btretti\b/, 'tredve', \@texts);
+        my @texts = ($no_num2word->num2no_cardinal($i));
+        expand_text(qr/^ett /,       '', \@texts);
+        expand_text(qr/\bsju\b/,    'syv', \@texts);
+        expand_text(qr/\btjue\b/,   'tyve', \@texts);
+        expand_text(qr/\btretti\b/, 'tredve', \@texts);
 
-	if (input_and_check($i, \@texts)) {
-		print "Kjempefint!\n";
-	}
-	else {
-		repeat_word(\@texts, 3);
-	}
+        if (input_and_check($i, \@texts)) {
+                print "Kjempefint!\n";
+        }
+        else {
+                repeat_word(\@texts, 3);
+        }
 }
 
 # Copyright (C) 2013 by Zeno Gantner
