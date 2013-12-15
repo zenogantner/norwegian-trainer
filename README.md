@@ -53,3 +53,7 @@ Improvements
 Make a pull request: https://github.com/zenogantner/norwegian-trainer
 
 
+License
+-------
+
+GPLv3 or later, see LICENSE file.
