@@ -78,7 +78,7 @@ if (length @ARGV > 0 && defined $ARGV[0]) {
 	}
 }
 
-print "Norwegian special characters for copy+paste: æ ø̣ å\n";
+print "Norwegian special characters for copy+paste: æ ø å\n";
 
 # actual program loop
 my $last = 0;
